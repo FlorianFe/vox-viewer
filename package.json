@@ -1,0 +1,23 @@
+{
+  "name": "voxel-viewer",
+  "version": "1.0.0",
+  "description": "displays voxel data",
+  "main": "voxel-viewer.js",
+  "scripts": {
+    "build-demo": "webpack --config demo/webpack.config.js"
+  },
+  "dependencies": {
+    "@google/model-viewer": "^0.7.2",
+    "ndarray": "^1.0.18",
+    "three": "^0.110.0",
+    "vox-reader": "^2.0.3",
+    "voxel-triangulation": "^1.1.1",
+    "zeros": "^1.0.0"
+  },
+  "devDependencies": {
+    "lit-element": "^2.2.1",
+    "terser-webpack-plugin": "^2.2.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}
