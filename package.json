@@ -1,8 +1,8 @@
 {
-  "name": "voxel-viewer",
+  "name": "vox-viewer",
   "version": "1.0.0",
-  "description": "displays voxel data",
-  "main": "voxel-viewer.js",
+  "description": "like model-viewer but for .vox models",
+  "main": "vox-viewer.js",
   "scripts": {
     "build-demo": "webpack --config demo/webpack.config.js"
   },
