@@ -6,6 +6,16 @@
   "scripts": {
     "build-demo": "webpack --config demo/webpack.config.js"
   },
+  "keywords": [
+    "voxel", 
+    "magickavoxel",
+    "model-viewer",
+    "graphics",
+    "model",
+    "graphics",
+    "vox",
+    "model"
+  ],
   "dependencies": {
     "@google/model-viewer": "^0.7.2",
     "ndarray": "^1.0.18",
