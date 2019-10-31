@@ -1,6 +1,6 @@
 {
   "name": "vox-viewer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "like model-viewer but for .vox models",
   "main": "vox-viewer.js",
   "scripts": {

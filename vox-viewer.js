@@ -9,15 +9,13 @@ import zeros from 'zeros';
 import '@google/model-viewer/lib/model-viewer';
 
 /**
- * `voxel-viewer`
+ * `vox-viewer`
  * displays voxel data
  *
  * @customElement
  * @polymer
  * @demo demo/index.html
  */
-
-let loaded = false;
 
 class VoxViewer extends LitElement 
 {
@@ -51,8 +49,8 @@ class VoxViewer extends LitElement
 
         preload: { type: Boolean },
         reveal: { type: String },
-        shadowIntensity: { type: Number },
-        unstableWebxr: { type: Boolean }
+        shadowIntensity: { type: Number, attribute: 'shadow-intensity'},
+        unstableWebxr: { type: Boolean, attribute: 'unstable-webxr' }
       }
   }
 
@@ -77,8 +75,9 @@ class VoxViewer extends LitElement
     this.interactionPromptTreshold = 3000;
 
     this.preload = false;
-
-
+    this.reveal = 'auto';
+    this.shadowIntensity = 0.0;
+    this.unstableWebxr = false;
   }
 
   get currentTime() { return this.shadowRoot.querySelector('#model-viewer').currentTime; }
@@ -92,46 +91,8 @@ class VoxViewer extends LitElement
   resetTurntableRotation() { this.shadowRoot.querySelector('#model-viewer').resetTurntableRotation(); }
   toDataURL(type, encoderOptions) { return this.shadowRoot.querySelector('#model-viewer').toDataURL(type, encoderOptions); }
 
-  firstUpdated() 
-  {
-    let modelViewer = this.shadowRoot.querySelector('#model-viewer');
-
-    /*
-      modelViewer.addEventListener('camera-change', (event) => this.dispatchEvent(event));
-      modelViewer.addEventListener('enviroment-change', (event) => this.dispatchEvent(event));
-      modelViewer.addEventListener('error', (event) => this.dispatchEvent(event));
-      modelViewer.addEventListener('load', (event) => this.dispatchEvent(event));
-      modelViewer.addEventListener('model-visibility', (event) => this.dispatchEvent(event));
-      modelViewer.addEventListener('poster-visibility', (event) => this.dispatchEvent(event));
-      modelViewer.addEventListener('play', (event) => this.dispatchEvent(event));
-      modelViewer.addEventListener('pause', (event) => this.dispatchEvent(event));
-      modelViewer.addEventListener('preload', (event) => this.dispatchEvent(event));
-    */
-  }
-
-  disconnectedCallback() 
-  {
-    super.disconnectedCallback();
-
-    let modelViewer = this.shadowRoot.querySelector('model-viewer');
-
-    /*
-      modelViewer.removeEventListener('camera-change');
-      modelViewer.removeEventListener('enviroment-change');
-      modelViewer.removeEventListener('error');
-      modelViewer.removeEventListener('load');
-      modelViewer.removeEventListener('model-visibility');
-      modelViewer.removeEventListener('poster-visibility');
-      modelViewer.removeEventListener('play');
-      modelViewer.removeEventListener('pause');
-      modelViewer.removeEventListener('preload');
-    */
-  }
-
   updated(changedProperties) 
   {
-    console.log(changedProperties, this["autoRotate"]);
-
     if(changedProperties.has('src'))
     {
       this.initialized = false;
@@ -143,7 +104,7 @@ class VoxViewer extends LitElement
 
   setup(changedProperties)
   {
-    changedProperties.forEach((oldValue, propertyName) => 
+    changedProperties.forEach((_, propertyName) => 
     {
       if(this[propertyName] != undefined)
       {
@@ -210,7 +171,8 @@ class VoxViewer extends LitElement
     request.send(null);
   }
 
-  static attributeNameForProperty(property) {
+  static attributeNameForProperty(property) 
+  {
     return camelToDashCase(property);
   }
 
@@ -240,32 +202,3 @@ class VoxViewer extends LitElement
 }
 
 window.customElements.define('vox-viewer', VoxViewer);
-
-
-/*
-
-.alt="${this.alt}"
-?ar="${this.ar}"
-?auto-rotate="${this.autoRotate}"
-.auto-rotate-delay="${this.autoRotateDelay}"
-?auto-play="${this.autoPlay}"
-.background-color="${this.backgroundColor}"
-.background-image="${this.backgroundImage}"
-?camera-controls="${this.cameraControls}"
-.camera-orbit="${this.cameraOrbit}"
-.camera-target="${this.cameraTarget}"
-.environment-image="${this.environmentImage}"
-.exposure="${this.exposure}" 
-.field-of-view="${this.fieldOfView}" 
-.interaction-policy="${this.interactionPolicy}" 
-.interaction-prompt="${this.interactionPrompt}"
-.interaction-prompt-style="${this.interactionPromptStyle}"
-.interaction-prompt-treshold="${this.interactionPromptTreshold}"
-
-?preload="${this.preload}"
-.quick-look-browsers="${this.quickLookBrowsers}"
-.reveal="${this.reveal}"
-.shadow-intensity="${this.shadowIntensity}"
-.unstable-webxr="${this.unstableWebxr}"
-
-*/
