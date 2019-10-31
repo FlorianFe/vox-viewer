@@ -1,10 +1,14 @@
 {
   "name": "vox-viewer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "like model-viewer but for .vox models",
   "main": "vox-viewer.js",
   "scripts": {
     "build-demo": "webpack --config demo/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/florianfe/vox-viewer.git"
   },
   "keywords": [
     "voxel", 
@@ -16,6 +20,8 @@
     "vox",
     "model"
   ],
+  "author": "Florian Fechner",
+  "license": "MIT",
   "dependencies": {
     "@google/model-viewer": "^0.7.2",
     "ndarray": "^1.0.18",
