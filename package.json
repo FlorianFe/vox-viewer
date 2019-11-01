@@ -1,9 +1,10 @@
 {
   "name": "vox-viewer",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "like model-viewer but for .vox models",
   "main": "vox-viewer.js",
   "scripts": {
+    "build": "tsc -p external/model-viewer/tsconfig.json",
     "build-demo": "webpack --config demo/webpack.config.js"
   },
   "repository": {
@@ -11,7 +12,7 @@
     "url": "https://github.com/florianfe/vox-viewer.git"
   },
   "keywords": [
-    "voxel", 
+    "voxel",
     "magickavoxel",
     "model-viewer",
     "graphics",
@@ -25,14 +26,17 @@
   "dependencies": {
     "@google/model-viewer": "^0.7.2",
     "ndarray": "^1.0.18",
-    "three": "^0.110.0",
+    "three": "^0.108.0",
     "vox-reader": "^2.0.3",
     "voxel-triangulation": "^1.1.1",
     "zeros": "^1.0.0"
   },
   "devDependencies": {
+    "@types/resize-observer-browser": "^0.1.2",
+    "@types/three": "^0.103.2",
     "lit-element": "^2.2.1",
     "terser-webpack-plugin": "^2.2.1",
+    "typescript": "^3.6.4",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   }

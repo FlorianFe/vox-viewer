@@ -6,7 +6,7 @@ import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import readVox from 'vox-reader';
 import zeros from 'zeros';
 
-import '@google/model-viewer/lib/model-viewer';
+import './external/model-viewer/lib/model-viewer.js';
 
 /**
  * `vox-viewer`
@@ -67,7 +67,7 @@ class VoxViewer extends LitElement
     this.cameraControls = false;
     this.cameraOrbit = '0deg 75deg 105%';
     this.cameraTarget = 'auto auto auto';
-    this.exposure = 0.4; // changed!
+    this.exposure = 1.0;
     this.fieldOfView = 'auto';
     this.interactionPolicy = 'always-allow';
     this.interactionPrompt = 'auto';
@@ -147,12 +147,12 @@ class VoxViewer extends LitElement
 
         let geometry = new BufferGeometry();
 
-        geometry.setAttribute('position', new BufferAttribute(new Float32Array(vertices), 3));
-        geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
-        geometry.setAttribute('color', new BufferAttribute(new Float32Array(flattenedColors), 3) );
+        geometry.addAttribute('position', new BufferAttribute(new Float32Array(vertices), 3));
+        geometry.addAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
+        geometry.addAttribute('color', new BufferAttribute(new Float32Array(flattenedColors), 3) );
         geometry.setIndex(new BufferAttribute(new Uint32Array(indices), 1));
 
-        let material = new MeshStandardMaterial({ color: '#ffffff', roughness: 1.0, metalness: 0.0 });
+        let material = new MeshStandardMaterial({ color: '#ffffff', roughness: 1.0, metalness: 1.0 });
         let mesh = new Mesh(geometry, material);
         let exporter = new GLTFExporter();
 
@@ -169,11 +169,6 @@ class VoxViewer extends LitElement
     }
 
     request.send(null);
-  }
-
-  static attributeNameForProperty(property) 
-  {
-    return camelToDashCase(property);
   }
 
   render()

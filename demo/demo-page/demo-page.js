@@ -17,6 +17,8 @@ class DemoPage extends LitElement
                 :host
                 {
                     display: block;
+                    margin: 0px;
+                    padding: 10px;
                 }
 
                 .container
@@ -29,11 +31,30 @@ class DemoPage extends LitElement
             </style>
             
             <div class="container">
+
                 <vox-viewer 
                     src="./models/deer.vox" 
                     camera-controls
                     auto-rotate
-                    style="height: calc(100vh - 50px); width: 50%;"></vox-viewer>
+                    shadow-intensity="0.3"
+                    style="height: calc(100vh - 50px); width: 30%;"
+                ></vox-viewer>
+
+<!--
+                <vox-viewer 
+                    src="./models/monu7.vox" 
+                    camera-controls
+                    auto-rotate
+                    style="height: calc(100vh - 50px); width: 30%;"
+                ></vox-viewer>
+
+                <vox-viewer 
+                    src="./models/monu8.vox" 
+                    camera-controls
+                    auto-rotate
+                    style="height: calc(100vh - 50px); width: 30%;"
+                ></vox-viewer>
+-->
             </div>
         `;
     }
