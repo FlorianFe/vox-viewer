@@ -8,4 +8,6 @@ which are exported by [Magicka Voxel](https://ephtracy.github.io/) as source ins
 
 ![screenshot](https://raw.githubusercontent.com/FlorianFe/vox-viewer/master/img/screenshot.png)
 
+## 👀 Demo
 
+You can see a live demo [here](https://florianfe.github.io/vox-viewer/demo/)
