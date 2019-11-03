@@ -37,7 +37,7 @@ class DemoPage extends LitElement
                     camera-controls
                     auto-rotate
                     shadow-intensity="0.3"
-                    style="height: calc(100vh - 50px); width: 30%;"
+                    style="height: calc(100vh - 50px); width: calc(100vh - 50px);"
                 ></vox-viewer>
 
 <!--
