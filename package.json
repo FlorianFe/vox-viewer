@@ -25,7 +25,7 @@
   "dependencies": {
     "@google/model-viewer": "^0.7.2",
     "ndarray": "^1.0.18",
-    "three": "^0.108.0",
+    "three": "^0.125.0",
     "vox-reader": "^2.0.3",
     "voxel-triangulation": "^1.1.1",
     "zeros": "^1.0.0"
