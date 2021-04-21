@@ -4,9 +4,9 @@ import { flatten } from 'ramda';
 import { BufferGeometry, BufferAttribute, MeshStandardMaterial, Mesh } from 'three'
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import readVox from 'vox-reader';
-import zeros from 'zeros';
+import zeros from 'zeros'
 
-import './external/model-viewer/lib/model-viewer.js';
+import '@google/model-viewer'
 
 /**
  * `vox-viewer`
@@ -141,18 +141,18 @@ class VoxViewer extends LitElement
 
         let { vertices, normals, indices, voxelValues } = voxelTriangulation(voxels);
 
-        let normalizedColors = componentizedColores.map((color) => color.map((c) => c / 255.0));
+        let normalizedColors = componentizedColores.map((color) => color.map((c) => c / 2**8));
         let alignedColors = [ [0, 0, 0], ...normalizedColors ];
         let flattenedColors = flatten(voxelValues.map((v) => alignedColors[v]));
 
         let geometry = new BufferGeometry();
 
-        geometry.addAttribute('position', new BufferAttribute(new Float32Array(vertices), 3));
-        geometry.addAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
-        geometry.addAttribute('color', new BufferAttribute(new Float32Array(flattenedColors), 3) );
+        geometry.setAttribute('position', new BufferAttribute(new Float32Array(vertices), 3));
+        geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
+        geometry.setAttribute('color', new BufferAttribute(new Float32Array(flattenedColors), 3) );
         geometry.setIndex(new BufferAttribute(new Uint32Array(indices), 1));
 
-        let material = new MeshStandardMaterial({ color: '#ffffff', roughness: 1.0, metalness: 1.0 });
+        let material = new MeshStandardMaterial({ roughness: 1.0, metalness: 0.0 });
         let mesh = new Mesh(geometry, material);
         let exporter = new GLTFExporter();
 
