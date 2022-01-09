@@ -17,6 +17,8 @@ import '@google/model-viewer'
  * @demo demo/index.html
  */
 
+const MAX_VALUE_OF_A_BYTE = 255
+
 class VoxViewer extends LitElement 
 {
   static get is()
@@ -141,7 +143,7 @@ class VoxViewer extends LitElement
 
         let { vertices, normals, indices, voxelValues } = voxelTriangulation(voxels);
 
-        let normalizedColors = componentizedColores.map((color) => color.map((c) => c / 2**8));
+        let normalizedColors = componentizedColores.map((color) => color.map((c) => c / MAX_VALUE_OF_A_BYTE));
         let alignedColors = [ [0, 0, 0], ...normalizedColors ];
         let flattenedColors = flatten(voxelValues.map((v) => alignedColors[v]));
 
@@ -163,6 +165,7 @@ class VoxViewer extends LitElement
           let url = URL.createObjectURL(blob);
 
           this.shadowRoot.querySelector('#model-viewer').src = url;
+          
           this.setup(changedProperties);
         });
       }
