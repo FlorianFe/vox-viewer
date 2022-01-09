@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit-element/lit-element';
+import {LitElement, html} from 'lit';
 import voxelTriangulation from 'voxel-triangulation';
 import { flatten } from 'ramda';
 import { BufferGeometry, BufferAttribute, MeshStandardMaterial, Mesh } from 'three'
