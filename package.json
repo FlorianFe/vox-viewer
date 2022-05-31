@@ -27,7 +27,7 @@
     "@google/model-viewer": "^1.9.2",
     "lit": "^2.1.1",
     "ndarray": "^1.0.19",
-    "three": "^0.136.0",
+    "three": "^0.137.0",
     "underscore": "^1.13.2",
     "vox-reader": "^2.1.2",
     "voxel-triangulation": "^1.3.6",
