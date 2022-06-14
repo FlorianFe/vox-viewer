@@ -30,24 +30,28 @@ class DemoPage extends LitElement {
           display: block;
           margin: 0px;
           padding: 10px;
+
+          height: calc(100vh - 20px);
+          width: calc(100vw - 20px);
         }
 
         .controls {
-          position: absolute;
-          top: 0;
-          left: 0;
-          padding: 15px;
+          height: 10%;
+          width: 100%;
         }
 
         .container {
+          height: 90%;
+          width: 100%;
+
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
         .vox-viewer {
-          height: calc(100vh - 50px);
-          width: calc(100vh - 50px);
+          height: 100%;
+          width: 100%;
         }
       </style>
 
