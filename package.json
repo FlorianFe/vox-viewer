@@ -1,11 +1,12 @@
 {
   "name": "vox-viewer",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "like model-viewer but for .vox models",
   "main": "vox-viewer.js",
   "scripts": {
     "build-demo": "webpack --config demo/webpack.config.js",
-    "start": "webpack --config demo/webpack.config.js && sirv demo"
+    "start": "webpack --config demo/webpack.config.js && sirv demo",
+    "watch": "webpack --config demo/webpack.config.js --watch"
   },
   "repository": {
     "type": "git",

@@ -134,76 +134,88 @@ class VoxViewer extends LitElement {
     });
   }
 
-  loadVoxModel(fileURL, changedProperties) {
-    let request = new XMLHttpRequest();
-    request.responseType = "arraybuffer";
+  async loadVoxModel(fileURL, changedProperties) {
+    if (fileURL.slice(0, 5) == "blob:") {
+      const response = await fetch(fileURL);
+      const arrayBuffer = await response.arrayBuffer();
 
-    request.open("GET", fileURL, true);
-    request.onreadystatechange = () => {
-      if (request.readyState === 4 && request.status == "200") {
-        let vox = readVox(new Uint8Array(request.response));
+      this.processVoxContent(arrayBuffer, changedProperties);
+    } else {
+      let request = new XMLHttpRequest();
+      request.responseType = "arraybuffer";
+      request.open("GET", fileURL, true);
+      request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status == "200") {
+          this.processVoxContent(request.response, changedProperties);
+        }
+      };
 
-        let voxelData = vox.xyzi.values;
-        let size = vox.size;
-        let rgba = vox.rgba.values;
+      request.send(null);
+    }
+  }
 
-        let componentizedColores = rgba.map((c) => [c.r, c.g, c.b]);
-        let voxels = zeros([size.x, size.y, size.z]);
+  processVoxContent(voxContent, changedProperties) {
+    const u8intArrayContent = new Uint8Array(voxContent);
 
-        voxelData.forEach(({ x, y, z, i }) => voxels.set(x, y, z, i));
+    let vox = readVox(u8intArrayContent);
 
-        voxels = voxels.transpose(1, 2, 0);
+    let voxelData = vox.xyzi.values;
+    let size = vox.size;
+    let rgba = vox.rgba.values;
 
-        let { vertices, normals, indices, voxelValues } =
-          voxelTriangulation(voxels);
+    let componentizedColores = rgba.map((c) => [c.r, c.g, c.b]);
+    let voxels = zeros([size.x, size.y, size.z]);
 
-        let normalizedColors = componentizedColores.map((color) =>
-          color.map((c) => c / MAX_VALUE_OF_A_BYTE)
-        );
+    voxelData.forEach(({ x, y, z, i }) => voxels.set(x, y, z, i));
 
-        let gammaCorrectedColors = normalizedColors.map((color) =>
-          color.map((c) => Math.pow(c, 2.2))
-        );
+    voxels = voxels.transpose(1, 2, 0);
 
-        let alignedColors = [[0, 0, 0], ...gammaCorrectedColors];
-        let flattenedColors = flatten(voxelValues.map((v) => alignedColors[v]));
+    let { vertices, normals, indices, voxelValues } =
+      voxelTriangulation(voxels);
 
-        let geometry = new BufferGeometry();
+    let normalizedColors = componentizedColores.map((color) =>
+      color.map((c) => c / MAX_VALUE_OF_A_BYTE)
+    );
 
-        geometry.setAttribute(
-          "position",
-          new BufferAttribute(new Float32Array(vertices), 3)
-        );
-        geometry.setAttribute(
-          "normal",
-          new BufferAttribute(new Float32Array(normals), 3)
-        );
-        geometry.setAttribute(
-          "color",
-          new BufferAttribute(new Float32Array(flattenedColors), 3)
-        );
-        geometry.setIndex(new BufferAttribute(new Uint32Array(indices), 1));
+    let gammaCorrectedColors = normalizedColors.map((color) =>
+      color.map((c) => Math.pow(c, 2.2))
+    );
 
-        let material = new MeshStandardMaterial({
-          roughness: 1.0,
-          metalness: 0.0,
-        });
-        let mesh = new Mesh(geometry, material);
-        let exporter = new GLTFExporter();
+    let alignedColors = [[0, 0, 0], ...gammaCorrectedColors];
+    let flattenedColors = flatten(voxelValues.map((v) => alignedColors[v]));
 
-        exporter.parse(mesh, (json) => {
-          let string = JSON.stringify(json);
-          let blob = new Blob([string], { type: "text/plain" });
-          let url = URL.createObjectURL(blob);
+    let geometry = new BufferGeometry();
 
-          this.shadowRoot.querySelector("#model-viewer").src = url;
+    geometry.setAttribute(
+      "position",
+      new BufferAttribute(new Float32Array(vertices), 3)
+    );
+    geometry.setAttribute(
+      "normal",
+      new BufferAttribute(new Float32Array(normals), 3)
+    );
+    geometry.setAttribute(
+      "color",
+      new BufferAttribute(new Float32Array(flattenedColors), 3)
+    );
+    geometry.setIndex(new BufferAttribute(new Uint32Array(indices), 1));
 
-          this.setup(changedProperties);
-        });
-      }
-    };
+    let material = new MeshStandardMaterial({
+      roughness: 1.0,
+      metalness: 0.0,
+    });
+    let mesh = new Mesh(geometry, material);
+    let exporter = new GLTFExporter();
 
-    request.send(null);
+    exporter.parse(mesh, (json) => {
+      let string = JSON.stringify(json);
+      let blob = new Blob([string], { type: "text/plain" });
+      let url = URL.createObjectURL(blob);
+
+      this.shadowRoot.querySelector("#model-viewer").src = url;
+
+      this.setup(changedProperties);
+    });
   }
 
   render() {

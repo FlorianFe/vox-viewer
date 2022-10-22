@@ -9,18 +9,49 @@ class DemoPage extends LitElement {
   static get properties() {
     return {
       selectedModel: { type: String },
+      selectedMode: { type: String },
     };
   }
 
   constructor() {
     super();
-    this.selectedModel = "deer";
+    this.selectedMode = "examples";
+    this.selectedModel = "./models/deer.vox";
   }
 
   onModelSelected() {
     const modelSelection = this.shadowRoot.querySelector("#model-selection");
 
     this.selectedModel = modelSelection.value;
+  }
+
+  onModeSelected() {
+    const modeSelection = this.shadowRoot.querySelector("#mode-selection");
+
+    this.selectedMode = modeSelection.value;
+
+    if (this.selectedMode === "examples") {
+      this.selectedModel = "./models/deer.vox";
+    }
+  }
+
+  onCustomModelUpload(e) {
+    let files = e.target.files;
+    let f = files[0];
+
+    let reader = new FileReader();
+
+    reader.onload = ((file) => {
+      return (e) => {
+        const string = e.target.result;
+        const blob = new Blob([string]);
+        const url = URL.createObjectURL(blob);
+
+        this.selectedModel = url;
+      };
+    })(f);
+
+    reader.readAsArrayBuffer(f);
   }
 
   render() {
@@ -38,6 +69,8 @@ class DemoPage extends LitElement {
         .controls {
           height: 10%;
           width: 100%;
+          display: flex;
+          gap: 15px;
         }
 
         .container {
@@ -56,22 +89,48 @@ class DemoPage extends LitElement {
       </style>
 
       <div class="controls">
-        Model: <br />
-        <select
-          id="model-selection"
-          value="${this.selectedModel}"
-          @change="${this.onModelSelected}"
-        >
-          <option value="deer">Deer</option>
-          <option value="monu7">Monument 7</option>
-          <option value="monu8">Monument 8</option>
-        </select>
+        <div>
+          Mode: <br />
+          <select
+            id="mode-selection"
+            value="${this.selectedMode}"
+            @change="${this.onModeSelected}"
+          >
+            <option value="examples">Examples</option>
+            <option value="custom">Own Model</option>
+          </select>
+        </div>
+
+        <div>
+          ${this.selectedMode === "custom"
+            ? html`<div>
+                Own Model: <br />
+                <input
+                  id="custom-model-selection"
+                  type="file"
+                  @change="${this.onCustomModelUpload}"
+                />
+              </div>`
+            : html`<div>
+                Model: <br />
+                <select
+                  id="model-selection"
+                  value="${this.selectedModel}"
+                  @change="${this.onModelSelected}"
+                >
+                  <option value="./models/deer.vox">Deer</option>
+                  <option value="./models/monu7.vox">Monument 7</option>
+                  <option value="./models/monu8.vox">Monument 8</option>
+                  <option value="./models/sphere.vox">Sphere</option>
+                </select>
+              </div>`}
+        </div>
       </div>
 
       <div class="container">
         <vox-viewer
           class="vox-viewer"
-          src="./models/${this.selectedModel}.vox"
+          src=${this.selectedModel}
           camera-controls
           auto-rotate
           shadow-intensity="0.3"
