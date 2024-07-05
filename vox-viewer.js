@@ -62,25 +62,6 @@ class VoxViewer extends LitElement {
     super();
 
     this.alt = "a voxel model"; // changed!
-    this.ar = false;
-    this.autoRotate = false;
-    this.autoRotateDelay = 3000;
-    this.autoplay = false;
-    this.backgroundColor = "white";
-    this.cameraControls = false;
-    this.cameraOrbit = "0deg 75deg 105%";
-    this.cameraTarget = "auto auto auto";
-    this.exposure = 1.0;
-    this.fieldOfView = "auto";
-    this.interactionPolicy = "always-allow";
-    this.interactionPrompt = "auto";
-    this.interactionPromptStyle = "wiggle";
-    this.interactionPromptTreshold = 3000;
-
-    this.preload = false;
-    this.reveal = "auto";
-    this.shadowIntensity = 0.0;
-    this.unstableWebxr = false;
   }
 
   get currentTime() {

@@ -30,7 +30,7 @@
     "ndarray": "^1.0.19",
     "three": "^0.141.0",
     "underscore": "^1.13.3",
-    "vox-reader": "^2.1.2",
+    "vox-reader": "^3.0.0",
     "voxel-triangulation": "^1.3.6",
     "zeros": "^1.0.0"
   },
