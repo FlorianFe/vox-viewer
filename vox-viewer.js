@@ -12,6 +12,7 @@ import readVox from "vox-reader";
 import zeros from "zeros";
 
 import "@google/model-viewer";
+import { isArray } from "underscore";
 
 /**
  * `vox-viewer`
@@ -140,9 +141,23 @@ class VoxViewer extends LitElement {
 
     let vox = readVox(u8intArrayContent);
 
+    let hasMultipleLayers = isArray(vox.xyzi);
+
     let voxelData = vox.xyzi.values;
     let size = vox.size;
     let rgba = vox.rgba.values;
+
+    if (hasMultipleLayers) {
+      voxelData = flatten(vox.xyzi.map((xyzi) => xyzi.values));
+
+      size = {
+        x: Math.max(...vox.size.map((s) => s.x)),
+        y: Math.max(...vox.size.map((s) => s.y)),
+        z: Math.max(...vox.size.map((s) => s.z)),
+      };
+
+      rgba = vox.rgba.values;
+    }
 
     let componentizedColores = rgba.map((c) => [c.r, c.g, c.b]);
     let voxels = zeros([size.x, size.y, size.z]);
